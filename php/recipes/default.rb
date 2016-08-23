@@ -1,33 +1,41 @@
 #
-# Author::  Joshua Timberman (<joshua@chef.io>)
-# Author::  Seth Chisamore (<schisamo@chef.io>)
 # Cookbook Name:: php
 # Recipe:: default
 #
-# Copyright 2009-2015, Chef Software, Inc.
+# Copyright 2016, YOUR_COMPANY_NAME
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# All rights reserved - Do Not Redistribute
 #
 
-include_recipe "php::#{node['php']['install_method']}"
-
-# update the main channels
-php_pear_channel 'pear.php.net' do
-  action :update
+execute 'update_ubuntu' do
+  Chef::Log.info("update_system_ubuntu")
+  user 'root'
+  command 'sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y dist-upgrade'
+  action :run
 end
 
-php_pear_channel 'pecl.php.net' do
-  action :update
+
+execute 'add_repository_update' do
+  Chef::Log.info("dd-apt-repository apt-get update")
+  user 'root'
+  command 'sudo dd-apt-repository -y ppa:ondrej/php && sudo apt-get update'
+  action :run
 end
 
-include_recipe 'php::ini'
+
+execute 'install_php' do
+  Chef::Log.info("installing packages")
+  user 'root'
+  command 'sudo apt-get install  dh-php php-common php-curl php-gd php-igbinary  php-imagick php-imap  php-mbstring  php-mcrypt  php-memcached  php-msgpack   php-mysql  php-pear  php-pgsql php-soap  php-sqlite3 php-xml  php7.0-bcmath   php7.0-cli php7.0-common   php7.0-curl php7.0-dev php7.0-fpm  php7.0-gd php7.0-imap  php7.0-intl  php7.0-json  php7.0-mbstring php7.0-mcrypt  php7.0-mysql   php7.0-opcache  php7.0-pgsql  php7.0-readline php7.0-soap  php7.0-sqlite3 php7.0-xml  php7.0-zip  pkg-php-tools -y '
+  action :run
+end
+
+#template '/etc/zabbix/zabbix_agentd.conf' do
+#  source 'zabbix_agentd.rb'
+#  owner 'zabbix'
+#  group 'zabbix'
+#  mode '0644'
+#end
+
+# service php7.0-fpm restart
+
