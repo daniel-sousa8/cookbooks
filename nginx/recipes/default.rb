@@ -13,18 +13,17 @@ end
 
 template '/etc/nginx/sites-available/default' do
   source 'vhost.conf'
-  owner "nginx" 
-  group "nginx"
+  owner "www-data" 
+  group "root"
   mode 00644
 end
 
-template '/usr/share/nginx/html/' do
+template '/usr/share/nginx/html/index.php' do
   source 'index.php'
-  owner "nginx"
-  group "nginx"
+  owner "www-data"
+  group "root"
   mode 00644
 end
-
 
 service "nginx" do
   action [ :enable ]
