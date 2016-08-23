@@ -18,7 +18,7 @@ end
 execute 'add_repository_update' do
   Chef::Log.info("dd-apt-repository apt-get update")
   user 'root'
-  command 'sudo dd-apt-repository -y ppa:ondrej/php && sudo apt-get update'
+  command 'sudo add-apt-repository -y ppa:ondrej/php && sudo apt-get update'
   action :run
 end
 
@@ -38,4 +38,6 @@ end
 #end
 
 # service php7.0-fpm restart
-
+service "php7.0-fpm" do
+  action [ :enable, :start ]
+end
