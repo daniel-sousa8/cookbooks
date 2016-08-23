@@ -26,7 +26,7 @@ end
 execute 'install_php' do
   Chef::Log.info("installing packages")
   user 'root'
-  command 'sudo apt-get install  dh-php php-common php-curl php-gd php-igbinary  php-imagick php-imap  php-mbstring  php-mcrypt  php-memcached  php-msgpack   php-mysql  php-pear  php-pgsql php-soap  php-sqlite3 php-xml  php7.0-bcmath   php7.0-cli php7.0-common   php7.0-curl php7.0-dev php7.0-fpm  php7.0-gd php7.0-imap  php7.0-intl  php7.0-json  php7.0-mbstring php7.0-mcrypt  php7.0-mysql   php7.0-opcache  php7.0-pgsql  php7.0-readline php7.0-soap  php7.0-sqlite3 php7.0-xml  php7.0-zip  pkg-php-tools -y '
+  command 'sudo apt-get install  dh-php php-common php-curl php-gd php-igbinary  php-imagick php-imap  php-mbstring  php-mcrypt  php-memcached  php-msgpack  php-mysql  php-pear  php-pgsql php-soap  php-sqlite3 php-xml  php7.0-bcmath   php7.0-cli php7.0-common   php7.0-curl php7.0-dev php7.0-fpm  php7.0-gd php7.0-imap  php7.0-intl  php7.0-json  php7.0-mbstring php7.0-mcrypt  php7.0-mysql  php7.0-opcache php7.0-pgsql  php7.0-readline php7.0-soapphp7.0-sqlite3 php7.0-xml php7.0-zip pkg-php-tools'
   action :run
 end
 
