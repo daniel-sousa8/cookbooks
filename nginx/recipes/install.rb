@@ -9,6 +9,9 @@
 
 node[:deploy].each do |application, deploy|
 
+#case node[:platform]
+ 
+   
 package "nginx" do
   action :install
 end

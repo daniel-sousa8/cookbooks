@@ -7,6 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
+case node[:platform]
+   
+   when 'ubuntu'
+ 
 execute 'update_ubuntu' do
   user 'root'
   command 'sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y dist-upgrade'
@@ -25,7 +29,39 @@ execute 'install_php' do
   action :run
 end
 
-# service php7.0-fpm restart
 service "php7.0-fpm" do
   action [ :enable, :restart ]
 end
+
+   when 'redhat', 'centos', 'amazon'
+
+
+execute 'update-epel' do
+  cwd Chef::Config[:file_cache_path]
+  command <<-EOF
+    yum -y install epel-release
+    wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+    wget https://centos6.iuscommunity.org/ius-release.rpm
+    rpm -Uvh ius-release*.rpm
+    yum -y update
+    EOF
+end
+
+execute 'install_php7_centos' do
+  user 'root'
+  command 'yum install php70u-debuginfo mod_php70u php70u-bcmath php70u-cli php70u-common php70u-dba php70u-dbg php70u-devel php70u-embedded php70u-enchant php70u-fpm php70u-fpm-nginx.noarch php70u-gmp php70u-imap  php70u-intl php70u-json php70u-ldap php70u-mbstring php70u-mcrypt php70u-mysqlnd php70u-odbc php70u-opcache php70u-pdo php70u-pdo-dblib php70u-pear.noarch php70u-pgsql php70u-process php70u-pspell php70u-recode php70u-snmp php70u-soap php70u-tidy php70u-xml php70u-xmlrpc  -y --force-yes'
+  action :run
+end
+
+#template '/etc/php.ini' do
+#  source 'php.ini'
+#  owner 'root'
+#  group 'root'
+#  mode '0644'
+#end
+
+service "php-fpm" do
+  action [ :enable, :start ]
+  supports :restart => true
+end
+
