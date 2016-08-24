@@ -7,10 +7,10 @@ FAIR_URL=http://ec2-52-67-20-70.sa-east-1.compute.amazonaws.com
 
 APP_KEY=base64:ep1kMMJ+AAF4tQcOZEgFgBtq4Menu0TB5IKApCIvXeo=
 
-DB_HOST=fpp-mysql.cq4ij1vipz5z.sa-east-1.rds.amazonaws.com
-DB_DATABASE=virtualexpos
-DB_USERNAME=homestead
-DB_PASSWORD=db1fppdb
+DB_HOST=<%= node['rds]['host'] %>
+DB_DATABASE=<%= node['rds]['database'] %>
+DB_USERNAME=<%= node['rds]['username'] %>
+DB_PASSWORD=<%= node['rds]['password'] %>
 
 CACHE_DRIVER=array
 #SESSION_DRIVER=redis
@@ -18,6 +18,7 @@ SESSION_DRIVER=file
 QUEUE_DRIVER=sync
 #QUEUE_DRIVER=redis
 
-REDIS_HOST=redis.7n3jwl.0001.sae1.cache.amazonaws.com
+#REDIS_HOST=redis.7n3jwl.0001.sae1.cache.amazonaws.com
+REDIS_HOST=<%= node['redis]['host'] %>
 REDIS_PASSWORD=null
-REDIS_PORT=6379
+REDIS_PORT=<%= node['redis']['port'] %>
