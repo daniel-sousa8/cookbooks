@@ -17,7 +17,7 @@ end
 unless node[:opsworks][:stack][:name] ==  'Feira-HMG', 'Feira-PRD'
 
 template "/srv/www/#{application}/current/.env" do
-  source 'env-feira.rb'
+  source 'env.rb'
   owner 'deploy'
   group 'www-data'
   mode '0644'
@@ -25,7 +25,7 @@ end
 end
   
 template "/srv/www/#{application}/current/.env" do
-  source 'env.rb'
+  source 'env-feira.rb'
   owner 'deploy'
   group 'www-data'
   mode '0644'
