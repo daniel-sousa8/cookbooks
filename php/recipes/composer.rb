@@ -1,48 +1,43 @@
-# Baixando e instalando composer 
+node[:deploy].each do |application, deploy|
+  
+# Baixando composer 
 execute 'add_repository_update' do
-  Chef::Log.info("dd-apt-repository apt-get update")
   user 'root'
   command 'curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer'
   action :run
 end
 
-# 
-execute 'add_repository_update' do
-  Chef::Log.info("dd-apt-repository apt-get update")
+# Install composer
+execute 'install_composer' do
   user 'root'
-  command 'cd /srv/www/auth/current && composer install'
+  command 'cd /srv/www/#{application}/current && composer install'
   action :run
 end
 
-
 # Gerando o .env valores no CUSTOM JSON
-template '/srv/www/auth/current/.env' do
+template '/srv/www/#{application}/current/.env' do
   source 'env.rb'
   owner 'deploy'
   group 'www-data'
   mode '0644'
 end
 
-execute 'permissao_bootstrap' do
-  Chef::Log.info("permissao bootstrap")
-  user 'root'
-  command 'chmod 775 /srv/www/auth/current/bootstrap/ -R'
-  action :run
+directory '/srv/www/#{application}/current/bootstrap' do
+  owner 'deploy'
+  group 'www-data'
+  mode '0775'
 end
 
-execute 'permissao_bootstrap' do
-  Chef::Log.info("permissao bootstrap")
-  user 'root'
-  command 'chmod 777 /srv/www/auth/current/storage/ -R'
-  action :run
+directory '/srv/www/#{application}/current/storage' do
+  owner 'deploy'
+  group 'www-data'
+  mode '0777'
 end
 
-
-execute 'permissao_bootstrap' do
-  Chef::Log.info("permissao bootstrap")
-  user 'deploy'
-  command 'touch /srv/www/auth/current/storage/logs/laravel.log && chmod 777 /srv/www/auth/current/storage/logs/laravel.log'
-  action :run
+file '/srv/www/#{application}/current/storage/logs/laravel.log' do
+  mode '0777'
+  owner 'deploy'
+  group 'wwww-data'
 end
 
 service "nginx" do
