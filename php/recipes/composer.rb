@@ -14,27 +14,11 @@ execute 'install_composer' do
   action :run
 end
 
-#Se for Authenticator
-case node[:opsworks][:stack][:name]
-
-  when 'Authenticator-HMG', 'Authenticator-PRD'
-
 template "/srv/www/#{application}/current/.env" do
-  source 'env-auth.rb'
+  source 'env.rb'
   owner 'deploy'
   group 'www-data'
   mode '0644'
-end
-
-#Se for Api
-  when 'API-HMG','API-PRD'
-
-template "/srv/www/#{application}/current/.env" do
-  source 'env-api.rb'
-  owner 'deploy'
-  group 'www-data'
-  mode '0644'
-end
 end
 
 directory "/srv/www/#{application}/current/bootstrap" do
