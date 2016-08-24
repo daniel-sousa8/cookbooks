@@ -35,7 +35,6 @@ template '/srv/www/#{application}/current/.env' do
   group 'www-data'
   mode '0644'
 end
-
 end
 
 directory '/srv/www/#{application}/current/bootstrap' do
@@ -58,4 +57,5 @@ end
 
 service "nginx" do
   action :restart
+end
 end
