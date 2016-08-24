@@ -30,12 +30,20 @@ execute 'permissao_bootstrap' do
   action :run
 end
 
-
 execute 'permissao_bootstrap' do
   Chef::Log.info("permissao bootstrap")
   user 'root'
   command 'chmod 777 /srv/www/auth/current/storage/ -R'
   action :run
 end
+
+
+execute 'permissao_bootstrap' do
+  Chef::Log.info("permissao bootstrap")
+  user 'deploy'
+  command 'touch /srv/www/auth/current/storage/logs/laravel.log && chmod 777 /srv/www/auth/current/storage/logs/laravel.log'
+  action :run
+end
+
 
 #php artisan kem:generate
