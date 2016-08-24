@@ -1,7 +1,7 @@
 APP_ENV=local
 APP_DEBUG=true
 
-APP_URL=http://ec2-52-67-62-90.sa-east-1.compute.amazonaws.com
+APP_URL=<%= node['elb]['app_url'] %>
 
 FAIR_URL=http://ec2-52-67-20-70.sa-east-1.compute.amazonaws.com
 
