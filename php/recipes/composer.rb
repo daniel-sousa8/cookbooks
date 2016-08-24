@@ -23,14 +23,14 @@ end
 
 execute 'permissao_bootstrap' do
   user 'root'
-  command 'chmod 775 /srv/www/auth/current/bootstrap/ -R'
+  command "chmod 775 /srv/www/#{application}/current/bootstrap/ -R"
   action :run
 end
 
-directory "/srv/www/#{application}/current/storage" do
-  owner 'deploy'
-  group 'www-data'
-  mode '0777'
+execute 'permissao_storage' do
+  user 'root'
+  command "chmod 775 /srv/www/#{application}/current/storage/ -R"
+  action :run
 end
 
 file "/srv/www/#{application}/current/storage/logs/laravel.log" do
