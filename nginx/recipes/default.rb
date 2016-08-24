@@ -18,13 +18,6 @@ template '/etc/nginx/sites-available/default' do
   mode 00644
 end
 
-template '/usr/share/nginx/html/index.php' do
-  source 'index.php'
-  owner "www-data"
-  group "root"
-  mode 00644
-end
-
 service "nginx" do
   action [ :enable ]
 end
