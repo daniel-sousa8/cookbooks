@@ -13,8 +13,10 @@ DB_USERNAME=homestead
 DB_PASSWORD=db1fppdb
 
 CACHE_DRIVER=array
-SESSION_DRIVER=redis
-QUEUE_DRIVER=redis
+#SESSION_DRIVER=redis
+SESSION_DRIVER=file
+QUEUE_DRIVER=sync
+#QUEUE_DRIVER=redis
 
 REDIS_HOST=redis.7n3jwl.0001.sae1.cache.amazonaws.com
 REDIS_PASSWORD=null
