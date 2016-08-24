@@ -21,10 +21,10 @@ template "/srv/www/#{application}/current/.env" do
   mode '0644'
 end
 
-directory "/srv/www/#{application}/current/bootstrap" do
-  owner 'deploy'
-  group 'www-data'
-  mode '0775'
+execute 'permissao_bootstrap' do
+  user 'root'
+  command 'chmod 775 /srv/www/auth/current/bootstrap/ -R'
+  action :run
 end
 
 directory "/srv/www/#{application}/current/storage" do
