@@ -52,7 +52,7 @@ end
 file "/srv/www/#{application}/current/storage/logs/laravel.log" do
   mode '0777'
   owner 'deploy'
-  group 'wwww-data'
+  group 'www-data'
 end
 
 service "nginx" do
