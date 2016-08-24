@@ -10,7 +10,7 @@ end
 # Install composer
 execute 'install_composer' do
   user 'root'
-  command 'cd /srv/www/#{application}/current && composer install'
+  command "cd /srv/www/#{application}/current && composer install"
   action :run
 end
 
@@ -19,7 +19,7 @@ case node[:opsworks][:stack][:name]
 
   when 'Authenticator-HMG', 'Authenticator-PRD'
 
-template '/srv/www/#{application}/current/.env' do
+template "/srv/www/#{application}/current/.env" do
   source 'env-auth.rb'
   owner 'deploy'
   group 'www-data'
@@ -29,7 +29,7 @@ end
 #Se for Api
   when 'API-HMG','API-PRD'
 
-template '/srv/www/#{application}/current/.env' do
+template "/srv/www/#{application}/current/.env" do
   source 'env-api.rb'
   owner 'deploy'
   group 'www-data'
@@ -37,19 +37,19 @@ template '/srv/www/#{application}/current/.env' do
 end
 end
 
-directory '/srv/www/#{application}/current/bootstrap' do
+directory "/srv/www/#{application}/current/bootstrap" do
   owner 'deploy'
   group 'www-data'
   mode '0775'
 end
 
-directory '/srv/www/#{application}/current/storage' do
+directory "/srv/www/#{application}/current/storage" do
   owner 'deploy'
   group 'www-data'
   mode '0777'
 end
 
-file '/srv/www/#{application}/current/storage/logs/laravel.log' do
+file "/srv/www/#{application}/current/storage/logs/laravel.log" do
   mode '0777'
   owner 'deploy'
   group 'wwww-data'
