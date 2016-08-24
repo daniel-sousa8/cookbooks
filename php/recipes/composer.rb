@@ -45,5 +45,8 @@ execute 'permissao_bootstrap' do
   action :run
 end
 
+service "nginx" do
+  action :restart
+end
 
 #php artisan kem:generate
