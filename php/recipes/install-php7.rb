@@ -53,13 +53,6 @@ execute 'install_php7_centos' do
   action :run
 end
 
-#template '/etc/php.ini' do
-#  source 'php.ini'
-#  owner 'root'
-#  group 'root'
-#  mode '0644'
-#end
-
 service "php-fpm" do
   action [ :enable, :start ]
   supports :restart => true
