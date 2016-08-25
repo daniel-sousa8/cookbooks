@@ -4,9 +4,9 @@
 
 DAEMON_PATH="/srv/www/api/current"
 
-DAEMON=workers-accessEmail
+DAEMON=workers-integration
 
-NAME=worker-accessEmail
+NAME=worker-integration
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
@@ -16,7 +16,7 @@ start)
 	#Entra na pasta
 	cd $DAEMON_PATH
 	#Executa o comando de start
-        su - deploy -c "/srv/www/api/current/artisan queue:work sqs --sleep=10 --daemon --quiet --tries=3 --env=local --queue='integration' &" 
+        su - deploy -c "/srv/www/api/current/artisan queue:work redis --sleep=10 --daemon --quiet --tries=3 --env=local --queue='integration' &" 
 
 echo "start - `date`" >> /var/log/workers-integration.log
 
@@ -37,8 +37,8 @@ status)
 echo "status - `date`" >> /var/log/workers-integration.log
         printf "%-5s" "Checking $NAME..."
         if [ -f $PIDFILE ]; then
-	PID=`ps -ef | grep  accessEmail | grep -v grep | awk {'print $2'}`
-	PID=$PID+`ps -ef | grep  accessEmail | grep -v grep | awk {'print $2'} >> $PIDFILE`
+	PID=`ps -ef | grep  integration | grep -v grep | awk {'print $2'}`
+	PID=$PID+`ps -ef | grep  integration | grep -v grep | awk {'print $2'} >> $PIDFILE`
             if [ -z "$PID" ]; then
                 printf "%s\n" "Processo morto mas o pid existe"
             else
@@ -50,16 +50,16 @@ echo "status - `date`" >> /var/log/workers-integration.log
 ;;
 stop)
         printf "%-5s" "Parando $NAME"
-echo "stop - `date`" >> /var/log/workers-accessEmail.log
+echo "stop - `date`" >> /var/log/workers-integration.log
 
-PID=`ps -ef | grep  accessEmail | grep -v grep | awk {'print $2'}`
+PID=`ps -ef | grep  integration | grep -v grep | awk {'print $2'}`
             kill -QUIT $PID && rm -rf $PIDFILE && printf "%s\n" "Ok"
 ;;
 
 restart)
-        /etc/init.d/workers-accessEmail stop
+        /etc/init.d/workers-integration stop
 	sleep 10;
-        /etc/init.d/workers-accessEmail start
+        /etc/init.d/workers-integration start
 ;;
 
 *)
