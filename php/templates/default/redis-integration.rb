@@ -2,7 +2,7 @@
 # Versao 0.1
 #set -x
 
-DAEMON_PATH="/srv/www/api/current"
+DAEMON_PATH="/srv/www/<%= @app_name %>/current"
 
 DAEMON=redis-integration
 
@@ -16,7 +16,7 @@ start)
 	#Entra na pasta
 	cd $DAEMON_PATH
 	#Executa o comando de start
-        su - deploy -c "/srv/www/api/current/artisan queue:work redis --sleep=10 --daemon --quiet --tries=3 --env=local --queue='integration' &" 
+        su - deploy -c "/srv/www/<%= @app_name %>/current/artisan queue:work redis --sleep=10 --daemon --quiet --tries=3 --env=local --queue='integration' &" 
 
 echo "start - `date`" >> /var/log/redis-integration.log
 
