@@ -4,9 +4,9 @@
 
 DAEMON_PATH="/srv/www/api/current"
 
-DAEMON=workers-accessEmail
+DAEMON=sqs-accessEmail
 
-NAME=worker-accessEmail
+NAME=sqs-accessEmail
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
 
@@ -18,11 +18,11 @@ start)
 	#Executa o comando de start
         su - deploy -c "/srv/www/api/current/artisan queue:work sqs --sleep=10 --daemon --quiet --tries=3 --env=local --queue='accessEmail' &" 
 
-echo "start - `date`" >> /var/log/workers-accessEmail.log
+echo "start - `date`" >> /var/log/sqs-accessEmail.log
 
 	sleep 5;
 	#PID do processo pai
-	PID=`ps -ef | grep  accessEmail | grep -v grep | awk {'print $2'}`
+	PID=`ps -ef | grep  accessEmail | grep sqs | grep -v grep | awk {'print $2'}`
 	echo $PID > $PIDFILE
 
 	#echo "Salvo PID" $PID " to " $PIDFILE
@@ -34,11 +34,11 @@ echo "start - `date`" >> /var/log/workers-accessEmail.log
         fi
 ;;
 status)
-echo "status - `date`" >> /var/log/workers-accessEmail.log
+echo "status - `date`" >> /var/log/sqs-accessEmail.log
         printf "%-5s" "Checking $NAME..."
         if [ -f $PIDFILE ]; then
-	PID=`ps -ef | grep  accessEmail | grep -v grep | awk {'print $2'}`
-	PID=$PID+`ps -ef | grep  accessEmail | grep -v grep | awk {'print $2'} >> $PIDFILE`
+	PID=`ps -ef | grep  accessEmail | grep sqs | grep -v grep | awk {'print $2'}`
+	PID=$PID+`ps -ef | grep  accessEmail | grep sqs | grep -v grep | awk {'print $2'} >> $PIDFILE`
             if [ -z "$PID" ]; then
                 printf "%s\n" "Processo morto mas o pid existe"
             else
@@ -50,16 +50,16 @@ echo "status - `date`" >> /var/log/workers-accessEmail.log
 ;;
 stop)
         printf "%-5s" "Parando $NAME"
-echo "stop - `date`" >> /var/log/workers-accessEmail.log
+echo "stop - `date`" >> /var/log/sqs-accessEmail.log
 
-PID=`ps -ef | grep  accessEmail | grep -v grep | awk {'print $2'}`
+PID=`ps -ef | grep  accessEmail | grep sqs | grep -v grep | awk {'print $2'}`
             kill -QUIT $PID && rm -rf $PIDFILE && printf "%s\n" "Ok"
 ;;
 
 restart)
-        /etc/init.d/workers-accessEmail stop
+        /etc/init.d/sqs-accessEmail stop
 	sleep 10;
-        /etc/init.d/workers-accessEmail start
+        /etc/init.d/sqs-accessEmail start
 ;;
 
 *)
