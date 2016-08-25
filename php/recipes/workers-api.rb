@@ -1,8 +1,11 @@
+node[:deploy].each do |application, deploy|
+
 template '/etc/init.d/redis-accessEmail' do
   source 'redis-accessEmail.rb'
   owner "deploy" 
   group "www-data"
   mode 00755
+  variables({  :app_name => "#{application}"})
 end
 
 template '/etc/init.d/sqs-accessEmail' do
@@ -10,6 +13,7 @@ template '/etc/init.d/sqs-accessEmail' do
   owner "deploy"  
   group "www-data"
   mode 00755
+  variables({  :app_name => "#{application}"})
 end
 
 template '/etc/init.d/redis-integration' do
@@ -17,6 +21,7 @@ template '/etc/init.d/redis-integration' do
   owner "deploy"  
   group "www-data"
   mode 00755
+  variables({  :app_name => "#{application}"})
 end
 
 template '/etc/init.d/sqs-integration' do
@@ -24,6 +29,7 @@ template '/etc/init.d/sqs-integration' do
   owner "deploy"  
   group "www-data"
   mode 00755
+  variables({  :app_name => "#{application}"})
 end
 
 execute "workers-sqs-integration" do
